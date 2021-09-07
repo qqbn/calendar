@@ -1,0 +1,277 @@
+<template>
+  <div class="add-task">
+      <div class="add-task-content">
+
+        <div class="add-task-form">
+
+            <div class="add-task-title">
+              <input class="set-title" type="text" placeholder="Set title">
+            </div>
+
+            <div class="add-task-text">
+              <textarea class="text" name="note" id="note" cols="30" rows="10" placeholder="Type sth here..."></textarea>
+            </div>
+
+        </div>
+
+        <div class="add-task-time">
+          <input class="time-input" type="time">
+        </div>
+
+      </div>
+
+      <div class="add-task-footer">
+        <div class="submit-box">
+          <input type="submit" class="save-btn" value=" ">
+        </div>
+        <button class="cancel-btn"><img class="cancel-img" src="../assets/error.svg" alt="error"></button>
+      </div>
+
+  </div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+.add-task{
+    display: none;
+    height: 100%;
+    width: 100%;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+.add-task-content{
+  width: 100%;
+  height: 85%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.add-task-form{
+  height: 350px;
+  width: 300px;
+  background-color: white;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.add-task-title{
+  width: 100%;
+  height: 20%;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid #060930;
+}
+.title-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  height: 100%;
+  color: #060930;
+  margin-right: 5px;
+}
+.set-title{
+  height: 50px;
+  border:none;
+  border-radius: 50px;
+  color: #060930;
+  text-align: center;
+  font-weight: bold;
+  background-color: #fcf7f9;
+}
+.set-title:hover{
+  background-color: #F4ABC4;
+}
+.text{
+  width: 100%;
+  height: 100%;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border:none;
+  font-size: 18px;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  background-color: #fcf7f9;
+  text-align: center;
+}
+.text:hover{
+  background-color: #F4ABC4;
+}
+.add-task-text{
+  width: 100%;
+  height: 80%;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+.time-input{
+  height: 50px;
+  width: 250px;
+  cursor: pointer;
+  border:none;
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  font-size: 18px;
+
+}
+.add-task-footer{
+  width: 100%;
+  height: 15%;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.save-btn{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: #69F6B9;
+  background: url("../assets/check-mark.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+}
+.cancel-btn{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f76d6d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.cancel-img{
+  height: 35px;
+  width: 35px;
+}
+.submit-box{
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 50%;
+}
+@media only screen and (max-width: 1100px){
+  .add-task-form{
+    width: 80%;
+  }
+  .add-task-form{
+    height: 300px;
+  }
+  .time-input{
+    width: 150px;
+  }
+}
+@media only screen and (max-width: 940px){
+  .add-task-form{
+    flex-direction: row;
+    height: 80%;
+    width: 80%;
+    border-radius: 0px;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    background: #333456;
+  }
+  .add-task-content{
+    flex-direction: row;
+    height: 70%;
+    width: 100%;
+  }
+  .add-task-footer{
+    height: 30%;
+    width: 100%;
+    border-radius: 0;
+  }
+  .add-task-time{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #333456;
+  }
+  .add-task{
+    height: 80%;
+    width: 100%;
+  }
+  .save-btn{
+    height: 40px;
+    width: 40px;
+  }
+  .add-task-title{
+    border:none;
+    height: 100%;
+    border-radius: 0;
+    width: 30%;
+    /* background: red; */
+  }
+  .add-task-text{
+    height: 100%;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: chartreuse; */
+    border-radius: 0;
+}
+  .text{
+    border-radius: 5px;
+    width: 80%;
+    font-size: 14px;
+  }
+  .submit-box{
+    height: 40px;
+    width: 40px;
+  }
+  .cancel-btn{
+    height: 40px;
+    width: 40px;
+  }
+}
+@media only screen and (max-width: 750px){
+  .set-title{
+    width: 150px;
+  }
+  .time-input{
+    width: 100px;
+  }
+}
+@media only screen and (max-width: 660px){
+  .set-title{
+   width: 100px;
+  }
+}
+@media only screen and (max-width: 400px){
+  .add-task-text{
+    width: 50%;
+    height: 100%;
+  }
+}
+</style>
