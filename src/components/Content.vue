@@ -11,7 +11,7 @@
       </div>
       <ul class="list">
         <div class="single-row" v-for="week in newMonth" :key="week.id">
-            <li class="single-day" v-for="day in week" :key="day.id"> <SingleDay :day="day"/></li>
+            <li class="single-day" v-for="day in week" :key="day.id"> <SingleDay :day="day" @chosenDay="chosenDay($event)"/></li>
         </div>
       </ul>
   </div>
@@ -23,6 +23,11 @@ export default {
 props: ['newMonth'],
 components:{
     SingleDay,
+},
+methods:{
+    chosenDay(day){
+        this.$emit('chosenDay',day);
+    }
 }
 }
 </script>

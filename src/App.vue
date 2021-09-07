@@ -1,7 +1,19 @@
 <template>
   <div class="main-box">
-    <Calendar :newMonth="newMonth" :monthName="monthName" :year="year" @subMonthCounter="subMonthCounter($event)" @addMonthCounter="addMonthCounter($event)"/>
-    <FormulaBox />
+    <Calendar :newMonth="newMonth"
+    :monthName="monthName"
+    :year="year"
+    @subMonthCounter="subMonthCounter($event)"
+    @addMonthCounter="addMonthCounter($event)"
+    @prevYear="prevYear($event)"
+    @nextYear="nextYear($event)"
+    @chosenDay="chosenDay($event)"
+    />
+    <FormulaBox
+    :monthName="monthName"
+    :day="todaysDay"
+    :year="year"
+    />
   </div>
 </template>
 
@@ -34,6 +46,7 @@ export default {
       daysMonthBefore: [],
       daysMonthNext: [],
       monthName: null,
+      todaysDay: null,
     }
   },
   methods:{
@@ -72,7 +85,7 @@ export default {
     },
 
     getMonthName(month){
-     this.monthName=this.monthNames[month];
+      this.monthName=this.monthNames[month];
     },
 
     getMonth(){
@@ -113,7 +126,26 @@ export default {
           this.daysMonthNext= [],
           this.getMonth();
     },
-
+    prevYear(yearCounter){
+      this.year=this.year-yearCounter;
+      this.newMonth=[];
+      this.singleMonth=[];
+      this.newDays=[];
+      this.newWeek=[],
+      this.daysMonthBefore= [],
+      this.daysMonthNext= [],
+      this.getMonth();
+    },
+    nextYear(yearCounter){
+      this.year=this.year+yearCounter;
+      this.newMonth=[];
+      this.singleMonth=[];
+      this.newDays=[];
+      this.newWeek=[],
+      this.daysMonthBefore= [],
+      this.daysMonthNext= [],
+      this.getMonth();
+    },
     sortMonth(){
       this.firstDay= new Date(this.year,this.month);
       this.counter=this.daysInMonth(this.month+1,this.year);
@@ -159,9 +191,14 @@ export default {
           });
         }
         });
+    },
+
+    chosenDay(day){
+      this.todaysDay=day;
     }
   },
   mounted(){
+    this.todaysDay=new Date().getDate();
     this.year=this.date.getFullYear();
     this.month= this.date.getMonth();
     this.getMonth();

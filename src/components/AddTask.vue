@@ -21,10 +21,7 @@
       </div>
 
       <div class="add-task-footer">
-        <div class="submit-box">
           <input type="submit" class="save-btn" value=" ">
-        </div>
-        <button class="cancel-btn"><img class="cancel-img" src="../assets/error.svg" alt="error"></button>
       </div>
 
   </div>
@@ -32,18 +29,36 @@
 
 <script>
 export default {
-
+props:{
+  showForm: Boolean
+},
+data(){
+  return{
+    isOpened: false,
+  }
+},
+methods:{
+  cancleBox(){
+    document.querySelector('.add-task').style.display="none";
+    this.isOpened=false;
+    this.$emit('isOpened', this.isOpened);
+  }
+},
+updated(){
+  if(this.showForm){
+    document.querySelector('.add-task').style.display="flex";
+    this.isOpened=true;
+  }
+}
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 .add-task{
-    display: none;
-    height: 100%;
+    display: flex;
+    height: 500px;
     width: 100%;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
     justify-content: space-around;
     flex-direction: column;
     align-items: center;
@@ -60,7 +75,7 @@ export default {
   height: 350px;
   width: 300px;
   background-color: white;
-  border-radius: 50px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,8 +84,8 @@ export default {
 .add-task-title{
   width: 100%;
   height: 20%;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,8 +117,6 @@ export default {
 .text{
   width: 100%;
   height: 100%;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
   border:none;
   font-size: 18px;
   font-family: 'Montserrat', sans-serif;
@@ -117,18 +130,18 @@ export default {
 .add-task-text{
   width: 100%;
   height: 80%;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
 }
 .time-input{
   height: 50px;
-  width: 250px;
+  width: 300px;
   cursor: pointer;
   border:none;
-  border-radius: 50px;
   font-family: 'Montserrat', sans-serif;
   text-align: center;
   font-size: 18px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top: 2px solid #060930;
 
 }
 .add-task-footer{
@@ -141,12 +154,11 @@ export default {
   align-items: center;
 }
 .save-btn{
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   border: none;
-  background-color: #69F6B9;
-  background: url("../assets/check-mark.svg");
+  background: url("../assets/add.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -185,13 +197,17 @@ export default {
     height: 300px;
   }
   .time-input{
-    width: 150px;
+    width: 240px;
+  }
+  .save-btn{
+    height: 30px;
+    width: 30px;
   }
 }
 @media only screen and (max-width: 940px){
   .add-task-form{
     flex-direction: row;
-    height: 80%;
+    height: 70%;
     width: 80%;
     border-radius: 0px;
     justify-content: space-around;
@@ -205,7 +221,7 @@ export default {
     width: 100%;
   }
   .add-task-footer{
-    height: 30%;
+    height: 10%;
     width: 100%;
     border-radius: 0;
   }
@@ -218,12 +234,12 @@ export default {
     background: #333456;
   }
   .add-task{
-    height: 80%;
+    height: 70%;
     width: 100%;
   }
   .save-btn{
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
   }
   .add-task-title{
     border:none;
@@ -253,6 +269,9 @@ export default {
   .cancel-btn{
     height: 40px;
     width: 40px;
+  }
+  .time-input{
+    border-radius: 50px;
   }
 }
 @media only screen and (max-width: 750px){

@@ -1,16 +1,17 @@
 <template>
-  <div class="tasks">
+  <div class="tasks" v-if="!returnView">
       <div class="tasks-content">
-          <p class="quick-info" v-show="show">There is nothin planned for this day...</p>
+          <p class="quick-info" v-show="showInfo">There is nothin planned for this day...</p>
           <ul>
               <li><Task /></li>
               <li><Task /></li>
               <li><Task /></li>
               <li><Task /></li>
+              <li><Task /></li>
+              <li><Task /></li>
+              <li><Task /></li>
+              <li><Task /></li>
           </ul>
-      </div>
-      <div class="tasks-footer">
-           <button class="add-btn"><img class="add-img" src="../assets/add.svg" alt="add"></button>
       </div>
   </div>
 </template>
@@ -18,21 +19,40 @@
 <script>
 import Task from './Task.vue'
 export default {
-components:{
-    Task,
-},
-data(){
-    return{
-        show: false,
+    components:{
+        Task,
+    },
+    props:{
+        returnView: Boolean,
+    },
+    data(){
+        return{
+            showInfo: false,
+            show: false,
+        }
+    },
+    methods:{
+        addTask(){
+            this.show=true;
+            if(this.show){
+                document.querySelector('.tasks').style.display="none"
+            }
+            this.$emit('showFormula', this.show);
+        }
+    },
+    renderTriggered(){
+        console.log(this.returnView);
+        if(this.returnView==false){
+            document.querySelector('.tasks').style.display="flex"
+        }
     }
-}
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 .tasks{
-    height: 520px;
+    height: 400px;
     width: 100%;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
@@ -43,34 +63,11 @@ data(){
 }
 .tasks-content{
     width: 100%;
-    height: 85%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-}
-.tasks-footer{
-    height: 15%;
-    width: 100%;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.add-btn{
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #333456;
-    cursor: pointer;
-}
-.add-img{
-    height: 30px;
-    width: 30px;
+    flex-direction: column;
 }
 .tasks-content ul{
     height: 100%;
@@ -129,27 +126,13 @@ data(){
 }
 @media only screen and (max-width: 940px){
     .tasks{
-        height: 80%;
+        height: 60%;
         width: 100%;
-    }
-    .tasks-footer{
-        border-radius: 0px;
-        height: 25%;
-    }
-    .tasks-content{
-        height: 75%;
+        justify-content: flex-start;
         background: red;
     }
-    .add-img{
-        height: 20px;
-        width: 20px;
-    }
-    .add-btn{
-        height: 35px;
-        width: 35px;
-    }
-    .add-btn:hover{
-        background: #F4ABC4;
+    .tasks-content{
+        height: 100%;
     }
     .tasks-content ul::-webkit-scrollbar{
         width: 10px;

@@ -9,7 +9,7 @@ export default {
   },
   methods:{
     openBox(){
-      this.$emit()
+      this.$emit('chosenDay', this.day);
     }
   }
 

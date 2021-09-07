@@ -1,7 +1,7 @@
 <template>
     <div class="calendar">
-        <Header :monthName="monthName" :year="year" @subMonthCounter="subMonthCounter($event)" @addMonthCounter="addMonthCounter($event)"/>
-        <Content :newMonth="newMonth"/>
+        <Header :monthName="monthName" :year="year" @subMonthCounter="subMonthCounter($event)" @addMonthCounter="addMonthCounter($event)" @prevYear="prevYear($event)" @nextYear="nextYear($event)"/>
+        <Content :newMonth="newMonth" @chosenDay="chosenDay($event)"/>
     </div>
 </template>
 
@@ -25,6 +25,15 @@ methods:{
     },
     addMonthCounter(monthCounter){
         this.$emit('addMonthCounter', monthCounter)
+    },
+    prevYear(yearCounter){
+        this.$emit('prevYear',yearCounter);
+    },
+    nextYear(yearCounter){
+        this.$emit('nextYear', yearCounter);
+    },
+    chosenDay(day){
+        this.$emit('chosenDay', day);
     }
 }
 }
