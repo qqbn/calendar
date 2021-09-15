@@ -1,13 +1,13 @@
 <template>
     <div class="formula-header">
-      <h3 class="formula-header-text">{{day}}-{{monthName}}-{{year}}</h3>
+      <h3 class="formula-header-text">{{day}}-{{boxMonth}}-{{year}}</h3>
     </div>
 </template>
 
 <script>
 export default {
   props:{
-    monthName: String,
+    boxMonth: String,
     day: Number,
     year: Number,
   }

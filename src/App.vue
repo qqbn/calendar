@@ -8,11 +8,20 @@
     @prevYear="prevYear($event)"
     @nextYear="nextYear($event)"
     @chosenDay="chosenDay($event)"
+    @boxId="boxId($event)"
+    @singleDayTasks="singleDayTasks($event)"
+    :formId="formId"
+    :dotsArr="dotsArr"
     />
     <FormulaBox
-    :monthName="monthName"
+    @refreshTasks="refreshTasks($event)"
+    :boxMonth="boxMonth"
     :day="todaysDay"
     :year="year"
+    :formId="formId"
+    :tasks="tasks"
+     @colorBox="colorBox($event)"
+     @taskToDelete="taskToDelete($event)"
     />
   </div>
 </template>
@@ -35,7 +44,6 @@ export default {
       month: null,
       date: new Date(),
       firstDay: null,
-      lastDay: null,
       counter: null,
       newDays: [],
       singleMonth:[],
@@ -47,6 +55,11 @@ export default {
       daysMonthNext: [],
       monthName: null,
       todaysDay: null,
+      boxMonth: null,
+      formId: null,
+      tasks: [],
+      testArr: [],
+      dotsArr:[],
     }
   },
   methods:{
@@ -65,7 +78,8 @@ export default {
       this.counter=this.daysInMonth(this.monthBefore+1,this.yearBefore);
       for(let i=1;i<=this.counter;i++){
          this.firstDay =new Date(this.yearBefore,this.monthBefore,i);
-        this.daysMonthNext.push(this.firstDay.getDate());
+        // this.daysMonthNext.push(this.firstDay.getDate());
+        this.daysMonthNext.push(0);
       }
     },
 
@@ -80,12 +94,13 @@ export default {
       this.counter=this.daysInMonth(this.monthBefore+1,this.yearBefore);
       for(let i=1;i<=this.counter;i++){
         this.firstDay =new Date(this.yearBefore,this.monthBefore,i);
-        this.daysMonthBefore.push(this.firstDay.getDate());
+        // this.daysMonthBefore.push(this.firstDay.getDate());
+        this.daysMonthBefore.push(0);
       }
     },
 
     getMonthName(month){
-      this.monthName=this.monthNames[month];
+      return this.monthNames[month];
     },
 
     getMonth(){
@@ -94,8 +109,7 @@ export default {
         this.getDaysFromLastMonth(this.month);
         this.getDaysFromNextMonth(this.month);
         this.mergeMonth();
-        console.log(this.newMonth);
-        this.getMonthName(this.month);
+        this.monthName=this.getMonthName(this.month);
     },
 
      subMonthCounter(month){
@@ -112,6 +126,7 @@ export default {
           this.daysMonthNext= [],
           this.getMonth();
     },
+
     addMonthCounter(counter){
       this.month=this.month+counter;
          if(this.month>11){
@@ -126,6 +141,7 @@ export default {
           this.daysMonthNext= [],
           this.getMonth();
     },
+
     prevYear(yearCounter){
       this.year=this.year-yearCounter;
       this.newMonth=[];
@@ -136,6 +152,7 @@ export default {
       this.daysMonthNext= [],
       this.getMonth();
     },
+
     nextYear(yearCounter){
       this.year=this.year+yearCounter;
       this.newMonth=[];
@@ -146,6 +163,7 @@ export default {
       this.daysMonthNext= [],
       this.getMonth();
     },
+
     sortMonth(){
       this.firstDay= new Date(this.year,this.month);
       this.counter=this.daysInMonth(this.month+1,this.year);
@@ -191,17 +209,101 @@ export default {
           });
         }
         });
+        // console.log(this.newMonth);
     },
 
     chosenDay(day){
       this.todaysDay=day;
+      this.boxMonth=this.getMonthName(this.month);
+    },
+
+    boxId(n){
+        this.formId=n;
+    },
+
+    singleDayTasks(n){
+      this.tasks=[],
+      this.tasks=n;
+    },
+
+     refreshTasks(m){
+       this.tasks.push(m);
+    },
+
+    getStartingData(){
+        if(localStorage.getItem('tasks')){
+        this.testArr=JSON.parse(localStorage.getItem('tasks'));
+        }
+        if(this.testArr.length>0){
+            this.testArr.forEach(element => {
+              if(element.boxId===this.formId){
+                this.tasks.push(element);
+                }
+            });
+            console.log(this.tasks);
+        }
+    },
+
+    newTask(n){
+      this.tasks.push({
+        boxId: n.formId,
+        title: n.taskTitle,
+        text: n.taskText,
+        time: n.timeValue,
+        id: n.id,
+      });
+    },
+
+    getDays(){
+      // console.log(this.testArr);
+      this.testArr.forEach(element => {
+        this.dotsArr.push(element.boxId);
+      });
+      // console.log(this.dotsArr);
+    },
+
+    colorBox(n){
+      this.dotsArr.push(n);
+      // console.log(this.dotsArr);
+    },
+    taskToDelete(n){
+      console.log(n);
+      if(localStorage.getItem('tasks')){
+        this.testArr=JSON.parse(localStorage.getItem('tasks'));
+      }
+      this.testArr.forEach(element => {
+        if(element.id===n.id){
+          console.log('jest taki element');
+          const index=this.testArr.indexOf(element);
+          if (index > -1) {
+            this.testArr.splice(index, 1);
+          }
+        }
+      });
+      console.log(this.testArr);
+      const parsed = JSON.stringify(this.testArr);
+      localStorage.setItem('tasks', parsed);
+      this.tasks=[];
+      if(this.testArr.length>0){
+        this.testArr.forEach(element => {
+          if(element.boxId===this.formId){
+              this.tasks.push(element);
+          }
+        });
+      }
     }
   },
+
   mounted(){
     this.todaysDay=new Date().getDate();
     this.year=this.date.getFullYear();
     this.month= this.date.getMonth();
     this.getMonth();
+    this.boxMonth=this.getMonthName(this.month);
+    this.formId=this.todaysDay+this.monthName+this.year;
+    console.log(this.formId);
+    this.getStartingData();
+    this.getDays();
   }
 }
 </script>

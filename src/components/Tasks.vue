@@ -1,17 +1,20 @@
 <template>
-  <div class="tasks" v-if="!returnView">
+  <div class="tasks">
       <div class="tasks-content">
-          <p class="quick-info" v-show="showInfo">There is nothin planned for this day...</p>
-          <ul>
-              <li><Task /></li>
-              <li><Task /></li>
-              <li><Task /></li>
-              <li><Task /></li>
-              <li><Task /></li>
-              <li><Task /></li>
-              <li><Task /></li>
-              <li><Task /></li>
+          <p class="quick-info" v-if="tasksLength(tasks)">There is nothin planned for this day...</p>
+          <ul v-else>
+              <li v-for="task in tasks" :key="task.id"><Task :task="task" @taskToDelete="taskToDelete($event)" @isOpened="isOpened($event)" @taskInfo="taskInfo($event)"/></li>
           </ul>
+      </div>
+      <div class="task-info">
+          <div class="title-info">
+              <p> <span>Title:</span>{{this.singleTitle}}</p>
+              <p><span>Time:</span> {{this.singleTime}}</p>
+          </div>
+          <div class="text-info">
+              <p>{{this.singleText}}</p>
+          </div>
+          <button class="close-info-btn" @click="closeInfo()">CLOSE</button>
       </div>
   </div>
 </template>
@@ -23,34 +26,106 @@ export default {
         Task,
     },
     props:{
-        returnView: Boolean,
+        formId: String,
+        tasks: Array,
     },
     data(){
         return{
             showInfo: false,
-            show: false,
+            singleTask: false,
+            singleTitle: '',
+            singleTime: '',
+            singleText: '',
         }
     },
     methods:{
-        addTask(){
-            this.show=true;
-            if(this.show){
-                document.querySelector('.tasks').style.display="none"
+        tasksLength(n){
+            if(n.length>0){
+                return false;
+            }else{
+                return true;
             }
-            this.$emit('showFormula', this.show);
+        },
+        taskToDelete(n){
+            this.$emit('taskToDelete', n);
+        },
+        isOpened(n){
+            if(n===false){
+                    document.querySelector('.tasks-content').style.display="none"
+                    document.querySelector('.task-info').style.display="flex"
+            }
+        },
+        closeInfo(){
+            this.singleTask=false;
+            document.querySelector('.tasks-content').style.display="flex"
+            document.querySelector('.task-info').style.display="none"
+        },
+        taskInfo(task){
+            console.log(task);
+           if(task){
+               this.singleTitle=task.title;
+               this.singleTime=task.time;
+               this.singleText=task.text;
+           }
         }
     },
-    renderTriggered(){
-        console.log(this.returnView);
-        if(this.returnView==false){
-            document.querySelector('.tasks').style.display="flex"
-        }
+    mounted(){
     }
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+.task-info{
+    height: 100%;
+    width: 90%;
+    background: white;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 50px;
+}
+.title-info{
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333456;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    flex-direction: column;
+}
+.title-info p{
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid #060930;
+}
+.title-info span{
+    color: #333456;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    color: #060930;
+    font-weight: bold;
+    padding: 0px 5px;
+}
+.text-info{
+    height: 70%;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #333456;
+    text-align: center;
+    overflow: auto;
+}
+.close-info-btn{
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    color: #060930;
+    cursor: pointer;
+}
 .tasks{
     height: 400px;
     width: 100%;
@@ -123,13 +198,27 @@ export default {
         height: 25px;
         width: 25px;
     }
+    .tasks-content{
+        height: 350px;
+    }
+    .task-info{
+        height: 350px;
+    }
+    .title-info{
+        font-size: 18px;
+    }
+    .title-info span{
+        font-size: 18px;
+    }
+    .text-info{
+        font-size: 16px;
+    }
 }
 @media only screen and (max-width: 940px){
     .tasks{
         height: 60%;
         width: 100%;
         justify-content: flex-start;
-        background: red;
     }
     .tasks-content{
         height: 100%;
@@ -137,9 +226,37 @@ export default {
     .tasks-content ul::-webkit-scrollbar{
         width: 10px;
     }
+    .title-info{
+        flex-direction: row;
+    }
+    .title-info p{
+        width: 40%;
+    }
 }
-@media only screen and (max-width: 370px){
-
+@media only screen and (max-width: 420px){
+     .title-info{
+        font-size: 14px;
+    }
+    .title-info span{
+       font-size: 14px;
+    }
+    .text-info{
+        font-size: 14px;
+    }
+}
+@media only screen and (max-width: 324px){
+    .close-info-btn{
+        font-size: 12px;
+    }
+     .title-info{
+        font-size: 12px;
+    }
+    .title-info span{
+       font-size: 12px;
+    }
+    .text-info{
+        font-size: 12px;
+    }
 }
 
 </style>

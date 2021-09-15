@@ -1,7 +1,8 @@
 <template>
     <div class="calendar">
         <Header :monthName="monthName" :year="year" @subMonthCounter="subMonthCounter($event)" @addMonthCounter="addMonthCounter($event)" @prevYear="prevYear($event)" @nextYear="nextYear($event)"/>
-        <Content :newMonth="newMonth" @chosenDay="chosenDay($event)"/>
+        <Content :newMonth="newMonth" :year="year" :formId="formId" :monthName="monthName" @chosenDay="chosenDay($event)" @boxId="boxId($event)" @singleDayTasks="singleDayTasks($event)"
+        :dotsArr="dotsArr"/>
     </div>
 </template>
 
@@ -14,6 +15,8 @@ props:{
     newMonth: Array,
     monthName: String,
     year: Number,
+    formId: String,
+    dotsArr: Array,
 },
 components:{
     Header,
@@ -34,6 +37,12 @@ methods:{
     },
     chosenDay(day){
         this.$emit('chosenDay', day);
+    },
+    boxId(n){
+        this.$emit('boxId', n);
+    },
+    singleDayTasks(n){
+        this.$emit('singleDayTasks', n);
     }
 }
 }

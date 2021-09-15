@@ -31,12 +31,14 @@ methods:{
     },
     nextMonth(){
         this.$emit('addMonthCounter',this.monthCounter);
+        console.log('===========');
     },
     prevYear(){
         this.$emit('prevYear',this.yearCounter);
     },
     nextYear(){
         this.$emit('nextYear',this.yearCounter);
+
     }
 }
 }

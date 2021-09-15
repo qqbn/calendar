@@ -1,13 +1,11 @@
 <template>
-  <div class="formula-box">
+  <div class="formula-box" :id="formId">
     <FormulaHeader
-      :monthName="monthName"
+      :boxMonth="boxMonth"
       :day="day"
       :year="year"
     />
-    <component :is="activeTab" />
-    <!-- <Tasks v-if="activeTab === 'Tasks'"/>
-    <AddTask v-if="activeTab === 'AddTask'"/> -->
+    <component :tasks="tasks" :formId="formId" :is="activeTab" @refreshTasks="refreshTasks($event)" @colorBox="colorBox($event)" @taskToDelete="taskToDelete($event)"/>
     <div class="select-components">
       <button class="list-btn" @click="activeTab='Tasks'"> List</button>
       <button class="formula-btn" @click="activeTab='AddTask'">Add</button>
@@ -27,24 +25,31 @@ components:{
 },
 props:{
    year: Number,
-   monthName: String,
+   boxMonth: String,
    day: Number,
+   formId: String,
+   tasks: Array
 },
 data(){
   return{
-    returnView: false,
-    showForm: false,
-    activeTab: 'Tasks'
+    activeTab: 'Tasks',
   }
 },
 methods:{
-  showFormula(show){
-    this.showForm=show;
+  newTask(n){
+    this.$emit('newTask',n);
   },
-  isOpened(n){
-    this.returnView=n;
-    console.log(this.returnView+'to jest return view');
+  refreshTasks(n){
+    this.$emit('refreshTasks', n);
+  },
+  colorBox(n){
+    this.$emit('colorBox', n);
+  },
+  taskToDelete(n){
+    this.$emit('taskToDelete', n);
   }
+},
+updated(){
 }
 }
 </script>

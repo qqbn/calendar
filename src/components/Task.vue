@@ -1,13 +1,30 @@
 <template>
   <div class="task">
-      <div class="task-content"> <p class="time">12:00</p> <p class="title">Shopping</p> </div>
-      <button class="delete-btn"><img class="delete-img" src="../assets/trash.svg" alt="thrash"></button>
+      <div class="task-content" @click="openInfo()"> <p class="time">{{task.time}}</p> <p class="title">{{task.title}}</p> </div>
+      <button class="delete-btn" @click="deleteTask()"><img class="delete-img" src="../assets/trash.svg" alt="thrash"></button>
   </div>
 </template>
 
 <script>
 export default {
-
+props:{
+    task: Object,
+},
+data(){
+    return{
+        isOpened: false,
+    }
+},
+methods:{
+    deleteTask(){
+        this.$emit('taskToDelete', this.task);
+    },
+    openInfo(){
+        console.log(this.task);
+        this.$emit('isOpened', this.isOpened);
+        this.$emit('taskInfo', this.task);
+    }
+}
 }
 </script>
 
@@ -21,14 +38,14 @@ export default {
     align-items: center;
 }
 .task-content{
-    width: 200px;
-    background: white;
+    width: 250px;
     height: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-radius: 50px;
     cursor: pointer;
+    background-color: white;
 }
 .task-content:hover{
     background-color: #f5f7fa;
@@ -51,7 +68,7 @@ export default {
     justify-content: center;
     align-items: center;
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
 }
 .delete-btn{
     height: 50px;
@@ -67,10 +84,10 @@ export default {
 }
 @media only screen and (max-width: 1100px){
     .time{
-        font-size: 18px;
+        font-size: 16px;
     }
     .title{
-        font-size: 16px;
+        font-size: 14px;
     }
     .task-content{
         width: 150px;
@@ -103,6 +120,12 @@ export default {
 @media only screen and (max-width: 370px){
     .task-content{
         width: 200px;
+    }
+    .time{
+        font-size: 16px;
+    }
+    .title{
+        font-size: 14px;
     }
 }
 </style>

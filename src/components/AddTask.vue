@@ -5,23 +5,23 @@
         <div class="add-task-form">
 
             <div class="add-task-title">
-              <input class="set-title" type="text" placeholder="Set title">
+              <input class="set-title" type="text" placeholder="Set title" v-model="taskTitle">
             </div>
 
             <div class="add-task-text">
-              <textarea class="text" name="note" id="note" cols="30" rows="10" placeholder="Type sth here..."></textarea>
+              <textarea class="text" name="note" id="note" cols="30" rows="10" placeholder="Type sth here..." v-model="taskText"></textarea>
             </div>
 
         </div>
 
         <div class="add-task-time">
-          <input class="time-input" type="time">
+          <input class="time-input" type="time" v-model="timeValue">
         </div>
 
       </div>
 
       <div class="add-task-footer">
-          <input type="submit" class="save-btn" value=" ">
+          <input type="submit" class="save-btn" value=" " @click="addTask">
       </div>
 
   </div>
@@ -30,26 +30,56 @@
 <script>
 export default {
 props:{
-  showForm: Boolean
+  formId: String,
 },
 data(){
   return{
     isOpened: false,
+    tasks: [],
+    taskTitle: null,
+    taskText: null,
+    timeValue: null,
   }
 },
 methods:{
-  cancleBox(){
-    document.querySelector('.add-task').style.display="none";
-    this.isOpened=false;
-    this.$emit('isOpened', this.isOpened);
-  }
+  addTask(){
+    if(localStorage.getItem('tasks')){
+        this.tasks=JSON.parse(localStorage.getItem('tasks'));
+    }
+    const string =this.taskTitle;
+    console.log(this.timeValue);
+    if(string !=null){
+      if(string.length>15){
+        confirm('Max length of title is 10letters');
+      }else{
+        if(this.timeValue!=null){
+          this.tasks.push({
+          boxId: this.formId,
+          title: this.taskTitle,
+          text: this.taskText,
+          time: this.timeValue,
+          id: Math.floor(Math.random() * 100000),
+        });
+          const counter=this.tasks.length;
+          this.$emit('refreshTasks', this.tasks[counter-1]);
+          this.$emit('colorBox',this.tasks[counter-1].boxId);
+          this.saveTasks();
+          this.taskTitle='';
+          this.taskText='';
+          this.timeValue='';
+      }else{
+        confirm('Set time!');
+      }
+    }
+    }else{
+      confirm('Set title!');
+    }
+  },
+  saveTasks(){
+      const parsed = JSON.stringify(this.tasks);
+      localStorage.setItem('tasks', parsed);
+    },
 },
-updated(){
-  if(this.showForm){
-    document.querySelector('.add-task').style.display="flex";
-    this.isOpened=true;
-  }
-}
 }
 </script>
 

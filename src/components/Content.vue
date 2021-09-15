@@ -11,7 +11,11 @@
       </div>
       <ul class="list">
         <div class="single-row" v-for="week in newMonth" :key="week.id">
-            <li class="single-day" v-for="day in week" :key="day.id"> <SingleDay :day="day" @chosenDay="chosenDay($event)"/></li>
+            <li class="single-day" v-for="day in week" :key="day.id"> <SingleDay :day="day" :monthName="monthName" :year="year" :formId="formId"
+            @chosenDay="chosenDay($event)"
+            @boxId="boxId($event)"
+            @singleDayTasks="singleDayTasks($event)"
+            :dotsArr="dotsArr"/></li>
         </div>
       </ul>
   </div>
@@ -20,14 +24,35 @@
 <script>
 import SingleDay from './SingleDay.vue'
 export default {
-props: ['newMonth'],
+props:{
+    newMonth: Array,
+    monthName: String,
+    year: Number,
+    formId: String,
+    dotsArr: Array,
+},
 components:{
     SingleDay,
 },
 methods:{
     chosenDay(day){
         this.$emit('chosenDay',day);
+    },
+    test(n){
+        console.log(n);
+    },
+    boxId(n){
+        this.$emit('boxId', n);
+    },
+    singleDayTasks(n){
+        this.$emit('singleDayTasks', n);
     }
+},
+mounted(){
+
+},
+updated(){
+
 }
 }
 </script>
@@ -82,6 +107,9 @@ methods:{
   font-size: 24px;
   font-weight: 400;
   width: 100px;
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
 }
 @media only screen and (max-width: 1100px){
     .content{
