@@ -1,20 +1,23 @@
 <template>
   <div class="tasks">
+
       <div class="tasks-content">
           <p class="quick-info" v-if="tasksLength(tasks)">There is nothin planned for this day...</p>
           <ul v-else>
               <li v-for="task in tasks" :key="task.id"><Task :task="task" @taskToDelete="taskToDelete($event)" @isOpened="isOpened($event)" @taskInfo="taskInfo($event)"/></li>
           </ul>
       </div>
+
       <div class="task-info">
           <div class="title-info">
               <p> <span>Title:</span>{{this.singleTitle}}</p>
               <p><span>Time:</span> {{this.singleTime}}</p>
           </div>
           <div class="text-info">
-              <p>{{this.singleText}}</p>
+              <textarea class="textarea" v-model="singleText" disabled></textarea>
           </div>
           <button class="close-info-btn" @click="closeInfo()">CLOSE</button>
+
       </div>
   </div>
 </template>
@@ -46,22 +49,25 @@ export default {
                 return true;
             }
         },
+
         taskToDelete(n){
             this.$emit('taskToDelete', n);
         },
+
         isOpened(n){
             if(n===false){
-                    document.querySelector('.tasks-content').style.display="none"
-                    document.querySelector('.task-info').style.display="flex"
+                document.querySelector('.tasks-content').style.display="none"
+                document.querySelector('.task-info').style.display="flex"
             }
         },
+
         closeInfo(){
             this.singleTask=false;
             document.querySelector('.tasks-content').style.display="flex"
             document.querySelector('.task-info').style.display="none"
         },
+
         taskInfo(task){
-            console.log(task);
            if(task){
                this.singleTitle=task.title;
                this.singleTime=task.time;
@@ -84,7 +90,7 @@ export default {
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    border-radius: 50px;
+    border-radius: 20px;
 }
 .title-info{
     height: 20%;
@@ -113,11 +119,31 @@ export default {
 .text-info{
     height: 70%;
     width: 100%;
-    font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     color: #333456;
     text-align: center;
-    overflow: auto;
+}
+.textarea{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-size: 18px;
+    color: #333456;
+    background-color: transparent;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    resize: none;
+    text-align: center;
+    overflow-y:auto;
+}
+   .textarea::-webkit-scrollbar-thumb{
+        background: #F4ABC4;
+    }
+
+.textarea::-webkit-scrollbar{
+    width: 10px;
+    background-color: white;
+    cursor: pointer;
 }
 .close-info-btn{
     background-color: transparent;
@@ -229,8 +255,24 @@ export default {
     .title-info{
         flex-direction: row;
     }
+    .task-info{
+        border-radius: 10px;
+    }
     .title-info p{
         width: 40%;
+    }
+    .textarea{
+        overflow-y: auto;
+        font-size: 16px;
+    }
+    .textarea::-webkit-scrollbar-thumb{
+        background: #F4ABC4;
+    }
+
+    .textarea::-webkit-scrollbar{
+    width: 10px;
+    background-color: white;
+    cursor: pointer;
     }
 }
 @media only screen and (max-width: 420px){
@@ -241,6 +283,9 @@ export default {
        font-size: 14px;
     }
     .text-info{
+        font-size: 14px;
+    }
+    .textarea{
         font-size: 14px;
     }
 }
@@ -255,6 +300,9 @@ export default {
        font-size: 12px;
     }
     .text-info{
+        font-size: 12px;
+    }
+    .textarea{
         font-size: 12px;
     }
 }

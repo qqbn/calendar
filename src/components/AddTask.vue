@@ -44,13 +44,17 @@ data(){
 methods:{
   addTask(){
     if(localStorage.getItem('tasks')){
-        this.tasks=JSON.parse(localStorage.getItem('tasks'));
+      this.tasks=JSON.parse(localStorage.getItem('tasks'));
     }
     const string =this.taskTitle;
-    console.log(this.timeValue);
-    if(string !=null){
+
+    if(string != null){
       if(string.length>15){
         confirm('Max length of title is 10letters');
+      }else if(string===""){
+        confirm('Set title!');
+      }else if(this.timeValue===""){
+        confirm('Set time!');
       }else{
         if(this.timeValue!=null){
           this.tasks.push({
@@ -59,18 +63,19 @@ methods:{
           text: this.taskText,
           time: this.timeValue,
           id: Math.floor(Math.random() * 100000),
-        });
+          });
+
           const counter=this.tasks.length;
-          this.$emit('refreshTasks', this.tasks[counter-1]);
-          this.$emit('colorBox',this.tasks[counter-1].boxId);
           this.saveTasks();
+          this.$emit('refreshTasks', this.tasks[counter-1]);
           this.taskTitle='';
           this.taskText='';
           this.timeValue='';
-      }else{
-        confirm('Set time!');
+        }
+        else{
+          confirm('Set time!');
+        }
       }
-    }
     }else{
       confirm('Set title!');
     }
@@ -153,6 +158,16 @@ methods:{
   cursor: pointer;
   background-color: #fcf7f9;
   text-align: center;
+  overflow-y: auto;
+  resize: none;
+}
+.text::-webkit-scrollbar{
+  width: 10px;
+  background-color: white;
+  cursor: pointer;
+}
+.text::-webkit-scrollbar-thumb{
+  background-color: #060930;
 }
 .text:hover{
   background-color: #F4ABC4;
@@ -276,7 +291,6 @@ methods:{
     height: 100%;
     border-radius: 0;
     width: 30%;
-    /* background: red; */
   }
   .add-task-text{
     height: 100%;
@@ -284,7 +298,6 @@ methods:{
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background: chartreuse; */
     border-radius: 0;
 }
   .text{
@@ -315,6 +328,10 @@ methods:{
 @media only screen and (max-width: 660px){
   .set-title{
    width: 100px;
+   border-radius: 10px;
+  }
+  .time-input{
+    border-radius: 10px;
   }
 }
 @media only screen and (max-width: 400px){
@@ -322,5 +339,9 @@ methods:{
     width: 50%;
     height: 100%;
   }
+  .time-input{
+    border-radius: 10px;
+    font-size: 14px;
+}
 }
 </style>

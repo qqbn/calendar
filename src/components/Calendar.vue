@@ -1,8 +1,18 @@
 <template>
     <div class="calendar">
-        <Header :monthName="monthName" :year="year" @subMonthCounter="subMonthCounter($event)" @addMonthCounter="addMonthCounter($event)" @prevYear="prevYear($event)" @nextYear="nextYear($event)"/>
-        <Content :newMonth="newMonth" :year="year" :formId="formId" :monthName="monthName" @chosenDay="chosenDay($event)" @boxId="boxId($event)" @singleDayTasks="singleDayTasks($event)"
-        :dotsArr="dotsArr"/>
+
+        <Header :monthName="monthName" :year="year"
+        @subMonthCounter="subMonthCounter($event)"
+        @addMonthCounter="addMonthCounter($event)"
+        @prevYear="prevYear($event)"
+        @nextYear="nextYear($event)"/>
+
+        <Content :newMonth="newMonth" :year="year" :formId="formId" :monthName="monthName"
+        @chosenDay="chosenDay($event)"
+        @boxId="boxId($event)"
+        @singleDayTasks="singleDayTasks($event)"
+        />
+
     </div>
 </template>
 
@@ -16,7 +26,6 @@ props:{
     monthName: String,
     year: Number,
     formId: String,
-    dotsArr: Array,
 },
 components:{
     Header,

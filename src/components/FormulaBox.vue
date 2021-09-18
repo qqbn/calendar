@@ -1,15 +1,21 @@
 <template>
   <div class="formula-box" :id="formId">
+
     <FormulaHeader
       :boxMonth="boxMonth"
       :day="day"
       :year="year"
     />
-    <component :tasks="tasks" :formId="formId" :is="activeTab" @refreshTasks="refreshTasks($event)" @colorBox="colorBox($event)" @taskToDelete="taskToDelete($event)"/>
+
+    <component :tasks="tasks" :formId="formId" :is="activeTab"
+    @refreshTasks="refreshTasks($event)"
+    @taskToDelete="taskToDelete($event)"/>
+
     <div class="select-components">
       <button class="list-btn" @click="activeTab='Tasks'"> List</button>
       <button class="formula-btn" @click="activeTab='AddTask'">Add</button>
     </div>
+
   </div>
 </template>
 
@@ -41,9 +47,6 @@ methods:{
   },
   refreshTasks(n){
     this.$emit('refreshTasks', n);
-  },
-  colorBox(n){
-    this.$emit('colorBox', n);
   },
   taskToDelete(n){
     this.$emit('taskToDelete', n);

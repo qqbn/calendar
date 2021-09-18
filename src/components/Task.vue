@@ -1,8 +1,10 @@
 <template>
+<transition name="drop">
   <div class="task">
-      <div class="task-content" @click="openInfo()"> <p class="time">{{task.time}}</p> <p class="title">{{task.title}}</p> </div>
-      <button class="delete-btn" @click="deleteTask()"><img class="delete-img" src="../assets/trash.svg" alt="thrash"></button>
+      <div class="task-content" @click="openInfo()" :class="{close:isDeleted}"> <p class="time">{{task.time}}</p> <p class="title">{{task.title}}</p> </div>
+      <button class="delete-btn" @click="deleteTask()" :class="{close:isDeleted}"><img class="delete-img" src="../assets/trash.svg" alt="thrash"></button>
   </div>
+</transition>
 </template>
 
 <script>
@@ -13,14 +15,16 @@ props:{
 data(){
     return{
         isOpened: false,
+        isDeleted: true,
     }
 },
 methods:{
     deleteTask(){
+        this.isDeleted=true;
         this.$emit('taskToDelete', this.task);
     },
+
     openInfo(){
-        console.log(this.task);
         this.$emit('isOpened', this.isOpened);
         this.$emit('taskInfo', this.task);
     }
@@ -30,6 +34,23 @@ methods:{
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+.close{
+  animation: wobble 0.2s ease !important;
+}
+@keyframes wobble{
+  0%{
+    transform: translateX(-4px);
+  }
+  20%{
+    transform: translateX(4px);
+  }
+  80%{
+    transform: translateX(-4px);
+  }
+  100%{
+    transform: translateX(4px);
+  }
+}
 .task{
     width: 100%;
     height: 50px;

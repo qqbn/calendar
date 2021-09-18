@@ -1,15 +1,18 @@
 <template>
   <div class="header">
+
       <div class="left-header">
         <button @click="monthLess()" class="left-arrow-button"><img class="left-arrow" src="../assets/right-arrow.svg" alt="arrow"></button>
         <h1>{{monthName}}</h1>
         <button @click="nextMonth()" class="right-arrow-button"><img class="right-arrow" src="../assets/right-arrow.svg" alt=""></button>
       </div>
+
       <div class="right-header">
           <button @click="prevYear()" class="left-arrow-button"><img class="left-arrow" src="../assets/right-arrow.svg" alt="arrow"></button>
           <h2>{{year}}</h2>
           <button @click="nextYear()" class="right-arrow-button"><img class="right-arrow" src="../assets/right-arrow.svg" alt=""></button>
       </div>
+
   </div>
 </template>
 
@@ -31,7 +34,6 @@ methods:{
     },
     nextMonth(){
         this.$emit('addMonthCounter',this.monthCounter);
-        console.log('===========');
     },
     prevYear(){
         this.$emit('prevYear',this.yearCounter);

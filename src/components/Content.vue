@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+
       <div class="days">
           <div class="day">Mon</div>
           <div class="day">Tue</div>
@@ -9,14 +10,17 @@
           <div class="day">Sat</div>
           <div class="day">Sun</div>
       </div>
+
       <ul class="list">
         <div class="single-row" v-for="week in newMonth" :key="week.id">
-            <li class="single-day" v-for="day in week" :key="day.id"> <SingleDay :day="day" :monthName="monthName" :year="year" :formId="formId"
-            @chosenDay="chosenDay($event)"
-            @boxId="boxId($event)"
-            @singleDayTasks="singleDayTasks($event)"
-            :dotsArr="dotsArr"/></li>
+            <li class="single-day" v-for="day in week" :key="day.id">
+                <SingleDay :day="day" :monthName="monthName" :year="year" :formId="formId"
+                @chosenDay="chosenDay($event)"
+                @boxId="boxId($event)"
+                @singleDayTasks="singleDayTasks($event)"/>
+            </li>
         </div>
+
       </ul>
   </div>
 </template>
@@ -29,7 +33,6 @@ props:{
     monthName: String,
     year: Number,
     formId: String,
-    dotsArr: Array,
 },
 components:{
     SingleDay,

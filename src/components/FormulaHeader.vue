@@ -49,5 +49,10 @@ export default {
     font-size: 28px;
   }
 }
+@media only screen and (max-width: 290px){
+  .formula-header-text{
+    font-size: 22px;
+  }
+}
 
 </style>
